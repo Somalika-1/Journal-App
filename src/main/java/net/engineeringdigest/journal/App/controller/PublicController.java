@@ -10,16 +10,15 @@ import org.springframework.web.bind.annotation.*;
 public class PublicController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
 
     @GetMapping("/health-check")
     public String healthCheck(){
         return "Ok";
     }
 
-    @PostMapping
+    @PostMapping("/create-user")
     public void createUser(@RequestBody User user){
-        System.out.println("Reached Controller");
-        userService.saveEntry(user);
+        userService.saveNewUser(user);
     }
 }

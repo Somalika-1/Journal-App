@@ -24,10 +24,12 @@ public class JournalEntryService {
     @Transactional
     public void saveEntry(JournalEntry journalentry, String username){
         try{
+            //retreiving user from db (with encoded password)
             User user=userService.findByUsername(username);
             JournalEntry saved=journalEntryRepo.save(journalentry);
             user.getJournalEntries().add(saved);
-            userService.saveEntry(user);
+            //calling 2nd save method
+            userService.saveUser(user);
         }
         catch (Exception e){
             System.out.println(e);
@@ -50,12 +52,22 @@ public class JournalEntryService {
 
     }
 
-    public  void deleteById(ObjectId id, String username){
-        User user=userService.findByUsername(username);
-        journalEntryRepo.deleteById(id);
-        user.getJournalEntries().removeIf(x->x.getId().equals(id));
-        userService.saveEntry(user);
-
+    @Transactional
+    public boolean deleteById(ObjectId id, String username){
+        boolean removed;
+        try {
+            User user=userService.findByUsername(username);
+            removed=user.getJournalEntries().removeIf(x->x.getId().equals(id));
+            if(removed){
+                userService.saveUser(user);
+                journalEntryRepo.deleteById(id);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException("An error occured while saving te Entry",e);
+        }
+        return removed;
     }
+
 }
 //Controller calls Service that calls Repository

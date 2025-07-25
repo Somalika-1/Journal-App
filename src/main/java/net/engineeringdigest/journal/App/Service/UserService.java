@@ -1,12 +1,9 @@
 package net.engineeringdigest.journal.App.Service;
 
-import net.engineeringdigest.journal.App.entity.JournalEntry;
 import net.engineeringdigest.journal.App.entity.User;
-import net.engineeringdigest.journal.App.repository.JournalEntryRepo;
 import net.engineeringdigest.journal.App.repository.UserRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -23,24 +20,22 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordencoder;
 
-    public void saveEntry(User user){
-
-        System.out.println("Reached Service");
-        try{
+    public void saveNewUser(User user){
             user.setPassword(passwordencoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepo.save(user);
-        }
-        catch (Exception e){
-            System.out.println(e);
-        }
-
     }
 
-   /* public void saveNewUser(User user){
-
+    //this method does not encode password again
+    public void saveUser(User user){
         userRepo.save(user);
-    }*/
+    }
+
+    public void saveAdmin(User user){
+        user.setPassword(passwordencoder.encode(user.getPassword()));
+        user.setRoles(Arrays.asList("USER","ADMIN"));
+        userRepo.save(user);
+    }
 
     public List<User> getAll(){
         return userRepo.findAll();
