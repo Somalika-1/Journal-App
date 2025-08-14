@@ -20,10 +20,19 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordencoder;
 
-    public void saveNewUser(User user){
+
+
+    public boolean saveNewUser(User user){
+
+        try{
             user.setPassword(passwordencoder.encode(user.getPassword()));
             user.setRoles(Arrays.asList("USER"));
             userRepo.save(user);
+        } catch (Exception e) {
+            return false;
+        }
+
+         return true;
     }
 
     //this method does not encode password again
