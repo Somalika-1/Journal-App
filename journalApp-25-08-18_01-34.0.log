@@ -1,0 +1,4 @@
+25-08-18 01:34:52.741 [SpringApplicationShutdownHook] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Commencing graceful shutdown. Waiting for active requests to complete
+25-08-18 01:34:52.763 [tomcat-shutdown] INFO  o.s.b.w.e.tomcat.GracefulShutdown - Graceful shutdown complete
+25-08-18 01:34:59.438 [main] INFO  n.e.journal.App.JournalApplication - Starting JournalApplication using Java 22.0.2 with PID 16152 (E:\journal-App\target\classes started by SOMALIKA in E:\journal-App)
+25-08-18 01:34:59.443 [main] INFO  n.e.journal.App.JournalApplication - The following 1 profile is active: "dev"

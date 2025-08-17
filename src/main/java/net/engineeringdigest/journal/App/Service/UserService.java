@@ -1,8 +1,11 @@
 package net.engineeringdigest.journal.App.Service;
 
+import lombok.extern.slf4j.Slf4j;
 import net.engineeringdigest.journal.App.entity.User;
 import net.engineeringdigest.journal.App.repository.UserRepo;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -12,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class UserService {
 
     @Autowired
@@ -20,8 +24,6 @@ public class UserService {
     @Autowired
     private PasswordEncoder passwordencoder;
 
-
-
     public boolean saveNewUser(User user){
 
         try{
@@ -29,6 +31,8 @@ public class UserService {
             user.setRoles(Arrays.asList("USER"));
             userRepo.save(user);
         } catch (Exception e) {
+            log.debug("hahaha");
+            log.error("Error occured for {}",user.getUsername(),e);
             return false;
         }
 

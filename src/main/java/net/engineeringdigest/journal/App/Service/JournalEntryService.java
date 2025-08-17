@@ -3,6 +3,8 @@ package net.engineeringdigest.journal.App.Service;
 import net.engineeringdigest.journal.App.entity.JournalEntry;
 import net.engineeringdigest.journal.App.entity.User;
 import org.bson.types.ObjectId;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import net.engineeringdigest.journal.App.repository.JournalEntryRepo;
@@ -20,6 +22,8 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+
+
     //to achieve atomicity
     @Transactional
     public void saveEntry(JournalEntry journalentry, String username){
@@ -32,7 +36,7 @@ public class JournalEntryService {
             userService.saveUser(user);
         }
         catch (Exception e){
-            System.out.println(e);
+
             throw new RuntimeException("An error occured");
         }
 
